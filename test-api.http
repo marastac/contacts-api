@@ -1,0 +1,11 @@
+### Create a New Contact
+POST http://localhost:3000/contacts
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "favoriteColor": "Blue",
+  "birthDate": "1990-01-01"
+}
