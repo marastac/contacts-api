@@ -1,7 +1,10 @@
 // index.js
 const express = require('express');
 const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
 require('dotenv').config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -16,15 +19,19 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Middleware
 app.use(express.json());
 
+// Swagger Documentation Route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // Use Contacts Routes
 app.use('/contacts', require('./routes/contacts'));
 
 // Root Route
 app.get('/', (req, res) => {
-  res.send('Hello world');
+  res.send('Contacts API - Visit /api-docs for documentation');
 });
 
 // Start the Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`📚 API Documentation available at http://localhost:${PORT}/api-docs`);
 });
