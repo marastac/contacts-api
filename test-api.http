@@ -1,11 +1,81 @@
+### Variables for development and production environments
+@baseUrlLocal = http://localhost:3000
+@baseUrlProduction = https://contacts-api-9tcc.onrender.com
+
+# Change this variable to test local or production
+@baseUrl = {{baseUrlProduction}}
+
+### GET - Retrieve all contacts
+GET {{baseUrl}}/contacts
+
 ### Create a New Contact
-POST http://localhost:3000/contacts
+POST {{baseUrl}}/contacts
 Content-Type: application/json
 
 {
-  "firstName": "John",
-  "lastName": "Doe",
-  "email": "john.doe@example.com",
-  "favoriteColor": "Blue",
-  "birthDate": "1990-01-01"
+    "firstName": "VideoDemo",
+    "lastName": "Student",
+    "email": "videodemo@byui.edu",
+    "favoriteColor": "purple",
+    "birthDate": "2000-12-25"
 }
+
+### Create a Second Contact for testing
+POST {{baseUrl}}/contacts
+Content-Type: application/json
+
+{
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@example.com",
+    "favoriteColor": "red",
+    "birthDate": "1985-05-15"
+}
+
+### GET - Retrieve contact by specific ID
+# Replace CONTACT_ID_HERE with a real ID from your database
+GET {{baseUrl}}/contacts/68342890b72264683cd57a73
+
+### PUT - Update contact by ID
+# Replace CONTACT_ID_HERE with a real ID from your database
+PUT {{baseUrl}}/contacts/68342890b72264683cd57a73
+Content-Type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe Updated",
+    "email": "john.updated@example.com",
+    "favoriteColor": "green",
+    "birthDate": "1990-01-01"
+}
+
+### DELETE - Delete contact by ID
+# Replace CONTACT_ID_HERE with a real ID from your database
+DELETE {{baseUrl}}/contacts/68342890b72264683cd57a73
+
+### Validation test - POST with missing required fields (should return 400)
+POST {{baseUrl}}/contacts
+Content-Type: application/json
+
+{
+    "firstName": "Test"
+    // Missing required fields: lastName, email, favoriteColor, birthDate
+}
+
+### Test GET with non-existent ID (should return 404)
+GET {{baseUrl}}/contacts/507f1f77bcf86cd799439011
+
+### Test PUT with non-existent ID (should return 404)
+PUT {{baseUrl}}/contacts/507f1f77bcf86cd799439011
+Content-Type: application/json
+
+{
+    "firstName": "Does not exist",
+    "lastName": "Test",
+    "email": "test@example.com",
+    "favoriteColor": "blue",
+    "birthDate": "1990-01-01"
+}
+
+### Test DELETE with non-existent ID (should return 404)
+DELETE {{baseUrl}}/contacts/507f1f77bcf86cd799439011

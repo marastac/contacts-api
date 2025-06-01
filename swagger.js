@@ -6,8 +6,9 @@ const doc = {
     description: 'API for managing contacts',
     version: '1.0.0',
   },
-  host: 'localhost:3000',
-  schemes: ['http', 'https'],
+  // FIX: Change localhost to your Render URL for production deployment
+  host: 'contacts-api-9tcc.onrender.com',  // Your Render production URL
+  schemes: ['https', 'http'],  // HTTPS first for production environment
   definitions: {
     Contact: {
       firstName: 'John',

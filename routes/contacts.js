@@ -1,10 +1,14 @@
 // routes/contacts.js
+// MVC PATTERN: Routes layer - Only route definitions, logic moved to controllers
 const express = require('express');
 const router = express.Router();
-const Contact = require('../models/contact');
+// IMPORT: Controller functions following MVC architecture
+const contactsController = require('../controllers/contactsController');
+
+// ROUTES: Clean route definitions using controller methods (MVC Pattern)
 
 // Get All Contacts
-router.get('/', async (req, res) => {
+router.get('/', 
   /*  #swagger.tags = ['Contacts']
       #swagger.summary = 'Get all contacts'
       #swagger.description = 'Retrieve all contacts from the database'
@@ -13,16 +17,11 @@ router.get('/', async (req, res) => {
         schema: { $ref: '#/definitions/Contact' }
       }
   */
-  try {
-    const contacts = await Contact.find();
-    res.json(contacts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+  contactsController.getAllContacts
+);
 
 // Get Contact by ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', 
   /*  #swagger.tags = ['Contacts']
       #swagger.summary = 'Get contact by ID'
       #swagger.description = 'Retrieve a specific contact by their ID'
@@ -40,20 +39,11 @@ router.get('/:id', async (req, res) => {
         description: 'Contact not found'
       }
   */
-  try {
-    const contact = await Contact.findById(req.params.id);
-    if (contact) {
-      res.json(contact);
-    } else {
-      res.status(404).json({ message: "Contact not found" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+  contactsController.getContactById
+);
 
 // Create a New Contact
-router.post('/', async (req, res) => {
+router.post('/', 
   /*  #swagger.tags = ['Contacts']
       #swagger.summary = 'Create a new contact'
       #swagger.description = 'Create a new contact with all required fields'
@@ -71,24 +61,11 @@ router.post('/', async (req, res) => {
         description: 'Invalid input data'
       }
   */
-  const newContact = new Contact({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    favoriteColor: req.body.favoriteColor,
-    birthDate: req.body.birthDate
-  });
-
-  try {
-    const savedContact = await newContact.save();
-    res.status(201).json(savedContact);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+  contactsController.createContact
+);
 
 // Update a Contact by ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', 
   /*  #swagger.tags = ['Contacts']
       #swagger.summary = 'Update a contact'
       #swagger.description = 'Update an existing contact by ID'
@@ -115,24 +92,11 @@ router.put('/:id', async (req, res) => {
         description: 'Contact not found'
       }
   */
-  try {
-    const updatedContact = await Contact.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (updatedContact) {
-      res.json(updatedContact);
-    } else {
-      res.status(404).json({ message: "Contact not found" });
-    }
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+  contactsController.updateContact
+);
 
 // Delete a Contact by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', 
   /*  #swagger.tags = ['Contacts']
       #swagger.summary = 'Delete a contact'
       #swagger.description = 'Delete a contact by ID'
@@ -152,16 +116,7 @@ router.delete('/:id', async (req, res) => {
         description: 'Server error'
       }
   */
-  try {
-    const deletedContact = await Contact.findByIdAndDelete(req.params.id);
-    if (deletedContact) {
-      res.json({ message: "Contact deleted successfully" });
-    } else {
-      res.status(404).json({ message: "Contact not found" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+  contactsController.deleteContact
+);
 
 module.exports = router;
